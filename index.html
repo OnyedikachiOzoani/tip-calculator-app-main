@@ -1,0 +1,114 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- displays site properly based on user's device -->
+
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="./images/favicon-32x32.png" />
+
+		<title>Frontend Mentor | Tip calculator app</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body>
+		<header class="site-header">
+			<img
+				src="./images/logo.svg"
+				alt="site logo image"
+				class="site-logo" />
+		</header>
+
+		<main>
+			<div class="main-section">
+				<!-- tip input section -->
+				<div class="input-section">
+					<form novalidate id="tip-input-control-form">
+						<div class="form-inner-container">
+							<!-- bill amount -->
+							<div class="input-container">
+								<label for="bill-amount">Bill</label>
+								<div class="input-inner-container">
+									<input
+										type="text"
+										id="bill-amount"
+										class="number-input"
+										value="142.55" />
+								</div>
+							</div>
+
+							<!-- tip percentage select -->
+							<fieldset class="percent-buttons-container">
+								<legend>Select Tip %</legend>
+								<div class="buttons-inner-container">
+									<button type="button">5%</button
+									><button type="button">10%</button
+									><button type="button">15%</button
+									><button type="button">25%</button
+									><button type="button">50%</button>
+									<input
+										type="text"
+										id="custom-percent"
+										class="number-input"
+										placeholder="Custom" />
+								</div>
+							</fieldset>
+
+							<!-- number of people to tip -->
+							<div class="input-container">
+								<label for="number-of-people"
+									>Number of People</label
+								>
+								<div class="input-inner-container">
+									<input
+										type="text"
+										id="number-of-people"
+										class="number-input"
+										value="5" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<!-- result feedback section -->
+				<div class="result-feedback-section">
+					<!-- feedback -->
+					<div class="feedback-container">
+						<div class="feedback-title">
+							<strong>Tip Amount</strong> <span>/ person</span>
+						</div>
+						<span class="feedback-amount">$4.27</span>
+					</div>
+					<div class="feedback-container">
+						<div class="feedback-title">
+							<strong>Total</strong> <span>/ person</span>
+						</div>
+						<span class="feedback-amount">$32.79</span>
+					</div>
+
+					<!-- reset button -->
+					<button type="button" class="reset-btn">Reset</button>
+				</div>
+			</div>
+		</main>
+
+		<footer class="attribution">
+			Challenge by
+			<a
+				href="https://www.frontendmentor.io?ref=challenge"
+				target="frontend-mentor"
+				>Frontend Mentor</a
+			>. Coded by
+			<a href="https://github.com/OnyedikachiOzoani" target="github"
+				>Onyedikachi Ozoani</a
+			>.
+		</footer>
+	</body>
+</html>
