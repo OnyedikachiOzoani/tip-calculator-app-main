@@ -1,8 +1,191 @@
 /** @format */
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap");
+
+:root {
+	--Grayish-cyan: hsl(184, 14%, 56%);
+	--Light-grayish-cyan: hsl(185, 41%, 84%);
+	--Very-light-grayish-cyan: hsl(189, 41%, 97%);
+	--Dark-grayish-cyan: hsl(186, 14%, 43%);
+	--Very-dark-cyan: hsl(183, 100%, 15%);
+	--Strong-cyan: hsl(172, 67%, 45%);
+}
 
 body {
-	background-color: darkblue;
+	margin: 0;
+	background-color: var(--Light-grayish-cyan);
+}
+
+.transitioned-state {
+	transition: all 0.25s ease-in-out;
+}
+
+/* page header section */
+.site-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-block: 2.5rem;
+}
+
+/* main section */
+.main-section-container {
+	background-color: white;
+	border-radius: 1.5rem 1.5rem 0 0;
+	padding: 1.5rem;
+	font-family: "Space Mono", monospace;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+/* tip input and control form */
+.form-inner-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.input-container,
+.percent-buttons-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.input-container > :first-child,
+.percent-buttons-container > :first-child {
+	color: var(--Dark-grayish-cyan);
+}
+
+.input-inner-container {
+	position: relative;
+}
+
+.input-inner-container::before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	left: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.bill-amount-input-container::before {
+	background-image: url(./images/icon-dollar.svg);
+	width: 11px;
+	height: 17px;
+}
+
+.number-of-people-input-container::before {
+	background-image: url(./images/icon-person.svg);
+	width: 13px;
+	height: 16px;
+}
+
+.number-input {
+	text-align: right;
+	font-family: "Space Mono", monospace;
+	font-size: 24px;
+	font-weight: 700;
+	border: none;
+	background-color: var(--Very-light-grayish-cyan);
+	color: var(--Very-dark-cyan);
+	padding: 0.3rem 1rem 0.3rem 1rem;
+	border-radius: 0.3rem;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.number-input:is(:focus, :active) {
+	outline: 2px solid var(--Strong-cyan);
+}
+
+.percent-buttons-container {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.percent-buttons-inner-container {
+	display: grid;
+	grid-template-rows: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1rem;
+}
+
+.percent-buttons-inner-container > * {
+	width: 100%;
+	font-family: "Space Mono", monospace;
+	font-weight: 700;
+	font-size: 1.5rem;
+	border-radius: 0.3rem;
+}
+
+.percent-buttons-inner-container button {
+	border: none;
+	background-color: var(--Very-dark-cyan);
 	color: white;
+	cursor: pointer;
+}
+
+.percent-buttons-inner-container button:active {
+	font-size: 2rem;
+}
+
+.percent-buttons-inner-container button:nth-child(3) {
+	background-color: var(--Strong-cyan);
+	color: var(--Very-dark-cyan);
+}
+
+.percent-buttons-inner-container button:nth-child(3):is(:hover, :active) {
+	background-color: hsl(172, 67%, 70%);
+}
+
+/* result feedback section */
+.result-feedback-section {
+	background-color: var(--Very-dark-cyan);
+	padding: 1.5rem;
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.feedback-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.feedback-title strong {
+	color: white;
+}
+
+.feedback-title span {
+	color: hsla(0, 0%, 100%, 0.4);
+	font-size: 0.8rem;
+}
+
+.feedback-amount {
+	color: var(--Strong-cyan);
+	font-weight: 700;
+	font-size: 2rem;
+}
+
+.reset-btn {
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 1.2rem;
+	font-family: "Space Mono", monospace;
+	background-color: var(--Strong-cyan);
+	color: var(--Very-dark-cyan);
+	border: none;
+	padding-block: 0.5rem;
+	border-radius: 0.3rem;
+	cursor: pointer;
+}
+
+.reset-btn:is(:hover, :active) {
+	background-color: hsl(172, 67%, 70%);
 }
 
 .attribution {

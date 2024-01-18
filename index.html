@@ -26,7 +26,7 @@
 		</header>
 
 		<main>
-			<div class="main-section">
+			<div class="main-section-container">
 				<!-- tip input section -->
 				<div class="input-section">
 					<form novalidate id="tip-input-control-form">
@@ -34,10 +34,12 @@
 							<!-- bill amount -->
 							<div class="input-container">
 								<label for="bill-amount">Bill</label>
-								<div class="input-inner-container">
+								<div
+									class="input-inner-container bill-amount-input-container">
 									<input
-										type="text"
-										id="bill-amount"
+										type="number"
+										required
+										id="bill-amount-input"
 										class="number-input"
 										value="142.55" />
 								</div>
@@ -46,14 +48,30 @@
 							<!-- tip percentage select -->
 							<fieldset class="percent-buttons-container">
 								<legend>Select Tip %</legend>
-								<div class="buttons-inner-container">
-									<button type="button">5%</button
-									><button type="button">10%</button
-									><button type="button">15%</button
-									><button type="button">25%</button
-									><button type="button">50%</button>
+								<div class="percent-buttons-inner-container">
+									<button
+										type="button"
+										class="transitioned-state">
+										<span>5%</span> </button
+									><button
+										type="button"
+										class="transitioned-state">
+										<span>10%</span> </button
+									><button
+										type="button"
+										class="transitioned-state">
+										<span>15%</span> </button
+									><button
+										type="button"
+										class="transitioned-state">
+										<span>25%</span> </button
+									><button
+										type="button"
+										class="transitioned-state">
+										<span>50%</span>
+									</button>
 									<input
-										type="text"
+										type="number"
 										id="custom-percent"
 										class="number-input"
 										placeholder="Custom" />
@@ -65,10 +83,12 @@
 								<label for="number-of-people"
 									>Number of People</label
 								>
-								<div class="input-inner-container">
+								<div
+									class="input-inner-container number-of-people-input-container">
 									<input
-										type="text"
-										id="number-of-people"
+										type="number"
+										required
+										id="number-of-people-input"
 										class="number-input"
 										value="5" />
 								</div>
@@ -82,19 +102,28 @@
 					<!-- feedback -->
 					<div class="feedback-container">
 						<div class="feedback-title">
-							<strong>Tip Amount</strong> <span>/ person</span>
+							<strong>Tip Amount</strong>
+							<br />
+							<span>/ person</span>
 						</div>
 						<span class="feedback-amount">$4.27</span>
 					</div>
 					<div class="feedback-container">
 						<div class="feedback-title">
-							<strong>Total</strong> <span>/ person</span>
+							<strong>Total</strong>
+							<br />
+							<span>/ person</span>
 						</div>
 						<span class="feedback-amount">$32.79</span>
 					</div>
 
 					<!-- reset button -->
-					<button type="button" class="reset-btn">Reset</button>
+					<button
+						type="button"
+						class="reset-btn transitioned-state"
+						form="tip-input-control-form"
+						>Reset</button
+					>
 				</div>
 			</div>
 		</main>
