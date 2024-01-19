@@ -21,7 +21,6 @@ numberInputs.forEach((numberInput) => {
 	numberInput.addEventListener("input", handleEvents);
 });
 // add click event listener to the percent buttons
-const randomNumber = Math.floor(Math.random() * percentBtns.length);
 percentBtns.forEach((percentBtn, index) => {
 	percentBtn.addEventListener("click", handleEvents);
 });
@@ -33,8 +32,8 @@ updateResultFeedback(calculateTips(billAmount, tipPercent, noOfPersons));
 
 // event handler
 function handleEvents(event) {
-	// update the reset button if used recently
-	if (valuesResetted) {
+	// update the reset button if used recently, and only if the new event's value can parse to a number type
+	if (valuesResetted && !isNaN()) {
 		valuesResetted = false;
 		resetBtn.classList.remove("active");
 	}
@@ -42,12 +41,16 @@ function handleEvents(event) {
 	if (event.type === "input") {
 		switch (event.currentTarget.id) {
 			case "bill-amount-input": {
-				billAmount = parseFloat(event.currentTarget.value);
+				if (!isNaN(parseFloat(event.currentTarget.value))) {
+					billAmount = parseFloat(event.currentTarget.value);
+				}
 				break;
 			}
 
 			case "custom-percent-input": {
-				tipPercent = parseFloat(event.currentTarget.value) / 100;
+				if (!isNaN(parseFloat(event.currentTarget.value))) {
+					tipPercent = parseFloat(event.currentTarget.value) / 100;
+				}
 				// remove any visual feedback on the percentBtns
 				percentBtns.forEach((percentBtn) => {
 					if (percentBtn.classList.contains("active"))
@@ -57,12 +60,15 @@ function handleEvents(event) {
 			}
 
 			case "number-of-people-input": {
-				noOfPersons = parseFloat(event.currentTarget.value);
+				if (parseFloat(event.currentTarget.value)) {
+					noOfPersons = parseFloat(event.currentTarget.value);
+				}
 			}
 
 			default:
 				break;
 		}
+		// check if arithmetic variables are valid before updating feedback
 		if (checkArithmeticValues()) {
 			// update the feedback section
 			updateResultFeedback(
@@ -121,6 +127,8 @@ function calculateTips(billAmount, tipPercent, noOfPersons) {
 function updateResultFeedback(feedbackObject) {
 	tipPerPersonEl.textContent = `$${feedbackObject.tipPerPerson}`;
 	totalTipsSumEl.textContent = `$${feedbackObject.totalAmountPerPerson}`;
+	// format number
+	const regex1 = /\w/;
 }
 
 // reset all values to zero
@@ -131,6 +139,11 @@ function resetAllValues() {
 	// load through all input fields and set values to zero
 	numberInputs.forEach((numberInput) => {
 		numberInput.value = "0";
+	});
+	// remove any visual feedback on the percentBtns
+	percentBtns.forEach((percentBtn) => {
+		if (percentBtn.classList.contains("active"))
+			percentBtn.classList.remove("active");
 	});
 	// set feedbacks to zero
 	tipPerPersonEl.textContent = "$0.00";
@@ -144,4 +157,9 @@ function checkArithmeticValues() {
 	} else {
 		return true;
 	}
+}
+
+// created this function to fix the issue of whether the inputted string value can be parsed to a number
+function canNumericParse(string) {
+	const numberPattern = /^\d+(\.\d+)?$/;
 }
