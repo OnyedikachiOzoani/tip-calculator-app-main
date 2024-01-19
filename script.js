@@ -14,6 +14,8 @@ let billAmount = 142.55;
 let tipPercent = 0.15;
 let noOfPersons = 5;
 
+let valuesResetted = false;
+
 // add input event listener to input fields to update feedback as user types
 numberInputs.forEach((numberInput) => {
 	numberInput.addEventListener("input", handleEvents);
@@ -31,37 +33,70 @@ updateResultFeedback(calculateTips(billAmount, tipPercent, noOfPersons));
 
 // event handler
 function handleEvents(event) {
+	// update the reset button if used recently
+	if (valuesResetted) {
+		valuesResetted = false;
+		resetBtn.classList.remove("active");
+	}
 	// check which event was fired
 	if (event.type === "input") {
-		switch (event.target.id) {
+		switch (event.currentTarget.id) {
 			case "bill-amount-input": {
-				billAmount = parseFloat(event.target.value);
+				billAmount = parseFloat(event.currentTarget.value);
 				break;
 			}
 
-			case "custom-percent": {
-				tipPercent = parseFloat(event.target.value) / 100;
+			case "custom-percent-input": {
+				tipPercent = parseFloat(event.currentTarget.value) / 100;
+				// remove any visual feedback on the percentBtns
+				percentBtns.forEach((percentBtn) => {
+					if (percentBtn.classList.contains("active"))
+						percentBtn.classList.remove("active");
+				});
 				break;
 			}
 
 			case "number-of-people-input": {
-				noOfPersons = parseFloat(event.target.value);
+				noOfPersons = parseFloat(event.currentTarget.value);
 			}
 
 			default:
 				break;
 		}
-	} else if (event.type === "click") {
-		if (event.target.classList.contains("reset-btn")) {
-			resetAllValues();
-		} else {
-			tipPercent =
-				parseFloat(event.target.textContent.slice(0, -1)) / 100;
+		if (checkArithmeticValues()) {
+			// update the feedback section
+			updateResultFeedback(
+				calculateTips(billAmount, tipPercent, noOfPersons)
+			);
 		}
-	}
+	} else if (event.currentTarget.classList.contains("reset-btn")) {
+		resetAllValues();
+		// update the reset variable
+		valuesResetted = true;
+		event.currentTarget.classList.add("active");
+	} else {
+		tipPercent =
+			parseFloat(event.currentTarget.textContent.slice(0, -1)) / 100;
 
-	// update the feedback section
-	updateResultFeedback(calculateTips(billAmount, tipPercent, noOfPersons));
+		if (checkArithmeticValues()) {
+			// update the feedback section
+			updateResultFeedback(
+				calculateTips(billAmount, tipPercent, noOfPersons)
+			);
+		}
+		// Update visual feedback
+		event.currentTarget.classList.add("active");
+		percentBtns.forEach((percentBtn) => {
+			if (event.currentTarget !== percentBtn) {
+				if (percentBtn.classList.contains("active"))
+					percentBtn.classList.remove("active");
+			}
+		});
+		// remove any value on the custom input element
+		event.currentTarget.parentElement.querySelector(
+			"#custom-percent-input"
+		).value = "";
+	}
 }
 
 // tip calculator function
@@ -89,9 +124,24 @@ function updateResultFeedback(feedbackObject) {
 }
 
 // reset all values to zero
-function resetAllValues(params) {
+function resetAllValues() {
+	billAmount = 0;
+	tipPercent = 0;
+	noOfPersons = 0;
 	// load through all input fields and set values to zero
 	numberInputs.forEach((numberInput) => {
 		numberInput.value = "0";
 	});
+	// set feedbacks to zero
+	tipPerPersonEl.textContent = "$0.00";
+	totalTipsSumEl.textContent = "$0.00";
+}
+
+//set a funnction to check whether all needed values are updated after resetting values
+function checkArithmeticValues() {
+	if (billAmount === 0 || tipPercent === 0 || noOfPersons === 0) {
+		return false;
+	} else {
+		return true;
+	}
 }

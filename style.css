@@ -133,13 +133,13 @@ main {
 	position: relative;
 }
 
-.percent-buttons-inner-container button:active span {
+.percent-buttons-inner-container button.active span {
 	display: inline-block;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-size: 2rem;
+	font-size: 2.5rem;
 }
 
 .percent-buttons-inner-container button:nth-child(3) {
@@ -147,7 +147,8 @@ main {
 	color: var(--Very-dark-cyan);
 }
 
-.percent-buttons-inner-container button:nth-child(3):is(:hover, :active) {
+.percent-buttons-inner-container button:nth-child(3):is(:hover),
+.percent-buttons-inner-container button.active:nth-child(3) {
 	background-color: hsl(172, 67%, 70%);
 }
 
@@ -194,11 +195,13 @@ main {
 	cursor: pointer;
 }
 
-.reset-btn.active {
-}
-
-.reset-btn:is(:hover, :active) {
+/* .reset-btn:is(:hover, :active) {
 	background-color: hsl(172, 67%, 70%);
+} */
+
+.reset-btn.active {
+	cursor: auto;
+	background-color: hsla(172, 67%, 45%, 0.3);
 }
 
 /* page footer - credits */
