@@ -28,9 +28,13 @@ body {
 }
 
 /* main section */
+main {
+	margin-bottom: 2rem;
+}
+
 .main-section-container {
 	background-color: white;
-	border-radius: 1.5rem 1.5rem 0 0;
+	border-radius: 1.5rem;
 	padding: 1.5rem;
 	font-family: "Space Mono", monospace;
 	display: flex;
@@ -126,9 +130,15 @@ body {
 	background-color: var(--Very-dark-cyan);
 	color: white;
 	cursor: pointer;
+	position: relative;
 }
 
-.percent-buttons-inner-container button:active {
+.percent-buttons-inner-container button:active span {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	font-size: 2rem;
 }
 
@@ -184,14 +194,24 @@ body {
 	cursor: pointer;
 }
 
+.reset-btn.active {
+}
+
 .reset-btn:is(:hover, :active) {
 	background-color: hsl(172, 67%, 70%);
 }
 
+/* page footer - credits */
+
 .attribution {
 	font-size: 11px;
 	text-align: center;
+	color: var(--Very-dark-cyan);
 }
 .attribution a {
-	color: hsl(228, 45%, 44%);
+	color: var(--Strong-cyan);
+}
+
+.attribution a:hover {
+	color: var(--Dark-grayish-cyan);
 }

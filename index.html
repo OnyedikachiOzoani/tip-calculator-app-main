@@ -33,7 +33,7 @@
 						<div class="form-inner-container">
 							<!-- bill amount -->
 							<div class="input-container">
-								<label for="bill-amount">Bill</label>
+								<label for="bill-amount-input">Bill</label>
 								<div
 									class="input-inner-container bill-amount-input-container">
 									<input
@@ -41,7 +41,8 @@
 										required
 										id="bill-amount-input"
 										class="number-input"
-										value="142.55" />
+										value="142.55"
+										min="0.1" />
 								</div>
 							</div>
 
@@ -74,13 +75,14 @@
 										type="number"
 										id="custom-percent"
 										class="number-input"
-										placeholder="Custom" />
+										placeholder="Custom"
+										min="0.1" />
 								</div>
 							</fieldset>
 
 							<!-- number of people to tip -->
 							<div class="input-container">
-								<label for="number-of-people"
+								<label for="number-of-people-input"
 									>Number of People</label
 								>
 								<div
@@ -90,7 +92,8 @@
 										required
 										id="number-of-people-input"
 										class="number-input"
-										value="5" />
+										value="5"
+										min="1" />
 								</div>
 							</div>
 						</div>
@@ -106,7 +109,9 @@
 							<br />
 							<span>/ person</span>
 						</div>
-						<span class="feedback-amount">$4.27</span>
+						<span class="feedback-amount tip-per-person"
+							>$4.27</span
+						>
 					</div>
 					<div class="feedback-container">
 						<div class="feedback-title">
@@ -114,18 +119,23 @@
 							<br />
 							<span>/ person</span>
 						</div>
-						<span class="feedback-amount">$32.79</span>
+						<span class="feedback-amount total-tips-sum"
+							>$32.79</span
+						>
 					</div>
 
 					<!-- reset button -->
 					<button
 						type="button"
-						class="reset-btn transitioned-state"
+						class="reset-btn active transitioned-state"
 						form="tip-input-control-form"
 						>Reset</button
 					>
 				</div>
 			</div>
+
+			<!-- start running JavaScript immediately needed nodes have loaded -->
+			<script src="./script.js"></script>
 		</main>
 
 		<footer class="attribution">
@@ -133,9 +143,13 @@
 			<a
 				href="https://www.frontendmentor.io?ref=challenge"
 				target="frontend-mentor"
+				class="transitioned-state"
 				>Frontend Mentor</a
 			>. Coded by
-			<a href="https://github.com/OnyedikachiOzoani" target="github"
+			<a
+				href="https://github.com/OnyedikachiOzoani"
+				target="github"
+				class="transitioned-state"
 				>Onyedikachi Ozoani</a
 			>.
 		</footer>
