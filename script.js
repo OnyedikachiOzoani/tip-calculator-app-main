@@ -262,6 +262,9 @@ function showError(inputElement) {
 	}
 	// display error message
 	errorMessage.classList.add("active");
+	// make the reset button clickable anytime an error is shown
+	valuesResetted = false;
+	resetBtn.classList.remove("active");
 
 	// position the errorMessage element
 	const gap = parseFloat(
@@ -278,10 +281,6 @@ function showError(inputElement) {
 	} else {
 		errorMessage.style.top = `${inputElementHeight + 2}px`;
 	}
-
-	// make the reset button clickable anytime an error is shown
-	valuesResetted = false;
-	resetBtn.classList.remove("active");
 }
 
 // remove error if conditions are valid
