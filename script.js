@@ -214,6 +214,8 @@ function resetAllValues() {
 	// set input fields values to zero
 	numberInputs.forEach((numberInput) => {
 		numberInput.value = "0";
+		// remove any error messages
+		removeError(numberInput);
 	});
 
 	// remove any visual feedback on the percentBtns
