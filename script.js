@@ -40,15 +40,15 @@ percentBtns.forEach((percentBtn, index) => {
 	// set initial value
 	if (percentBtn.innerText === "15%") percentBtn.classList.add("active");
 });
-// add click event to reset button
-resetBtn.addEventListener("click", handleEvents);
-
 // set initial feedback results
 updateResultFeedback(calculateTips(billAmount, tipPercent, noOfPersons));
 
+// add click event to reset button
+resetBtn.addEventListener("click", handleEvents);
+
 // event handler
 function handleEvents(event) {
-	// update the reset button if used recently, and only if the new event's value can parse to a number type
+	// update the reset button if used recently, and only if the new event.currentTarget's value can parse to a number type
 	if (valuesResetted) {
 		if (
 			canNumericParse(event.currentTarget.value) ||
@@ -58,9 +58,10 @@ function handleEvents(event) {
 			resetBtn.classList.remove("active");
 		}
 	}
+
 	// check which event was fired
 	if (event.type === "input") {
-		// update arithmetic values for each input cases and remove any invalid characters from the input value
+		// update arithmetic values for each input cases
 		switch (event.currentTarget.id) {
 			case "bill-amount-input": {
 				if (canNumericParse(event.currentTarget.value)) {
@@ -104,6 +105,7 @@ function handleEvents(event) {
 			default:
 				break;
 		}
+
 		// check if arithmetic variables are valid before updating feedback
 		if (checkArithmeticValues()) {
 			// update the feedback section
@@ -117,15 +119,18 @@ function handleEvents(event) {
 		valuesResetted = true;
 		event.currentTarget.classList.add("active");
 	} else {
+		// this block runs if any of the percentBtns was clicked
 		tipPercent =
 			parseFloat(event.currentTarget.innerText.slice(0, -1)) / 100;
 
+		// check if arithmetic variables are valid before updating feedback
 		if (checkArithmeticValues()) {
 			// update the feedback section
 			updateResultFeedback(
 				calculateTips(billAmount, tipPercent, noOfPersons)
 			);
 		}
+
 		// Update visual feedback
 		event.currentTarget.classList.add("active");
 		percentBtns.forEach((percentBtn) => {
@@ -149,6 +154,7 @@ function calculateTips(billAmount, tipPercent, noOfPersons) {
 	let tipAmountPerPerson = (billAmount * tipPercent) / noOfPersons;
 	// get the final total amount to be paid each person including the tips
 	let finalAmountPerPerson = initialAmountPerPerson + tipAmountPerPerson;
+
 	// round values to 2 decimal places
 	tipAmountPerPerson = Math.round(tipAmountPerPerson * 100) / 100;
 	finalAmountPerPerson = Math.round(finalAmountPerPerson * 100) / 100;
@@ -161,10 +167,43 @@ function calculateTips(billAmount, tipPercent, noOfPersons) {
 }
 
 function updateResultFeedback(feedbackObject) {
-	tipPerPersonEl.textContent = `$${feedbackObject.tipPerPerson}`;
-	totalTipsSumEl.textContent = `$${feedbackObject.totalAmountPerPerson}`;
-	// format number
-	const regex1 = /\w/;
+	const tipPerPersonText = `${feedbackObject.tipPerPerson}`;
+	const totalTipsSumText = `${feedbackObject.totalAmountPerPerson}`;
+
+	// patterns for formating feedback number
+	const regex1 = /^\d+\.\d$/;
+	const regex2 = /^\d$/;
+
+	// format feedback number if matched any of the patterns
+	switch (true) {
+		// next two cases are for formatting number with one decimal place
+		case regex1.test(tipPerPersonText): {
+			tipPerPersonEl.textContent = `$${tipPerPersonText}0`;
+			break;
+		}
+
+		case regex1.test(totalTipsSumText): {
+			totalTipsSumEl.textContent = `$${totalTipsSumText}0`;
+			break;
+		}
+
+		// next two cases are for formatting number with only one digit
+		case regex2.test(tipPerPersonText): {
+			tipPerPersonEl.textContent = `$${tipPerPersonText}.00`;
+			break;
+		}
+
+		case regex2.test(totalTipsSumText): {
+			totalTipsSumEl.textContent = `$${totalTipsSumText}.00`;
+			break;
+		}
+
+		// if none of the above cases match, then don't format
+		default: {
+			tipPerPersonEl.textContent = `${tipPerPersonText}`;
+			totalTipsSumEl.textContent = `${totalTipsSumText}`;
+		}
+	}
 }
 
 // reset all values to zero
@@ -172,15 +211,17 @@ function resetAllValues() {
 	billAmount = 0;
 	tipPercent = 0;
 	noOfPersons = 0;
-	// load through all input fields and set values to zero
+	// set input fields values to zero
 	numberInputs.forEach((numberInput) => {
 		numberInput.value = "0";
 	});
+
 	// remove any visual feedback on the percentBtns
 	percentBtns.forEach((percentBtn) => {
 		if (percentBtn.classList.contains("active"))
 			percentBtn.classList.remove("active");
 	});
+
 	// set feedbacks to zero
 	tipPerPersonEl.textContent = "$0.00";
 	totalTipsSumEl.textContent = "$0.00";
@@ -199,7 +240,6 @@ function checkArithmeticValues() {
 function canNumericParse(string) {
 	const numberPattern = /^(?!^0+(\.0+)?$)\d+(\.\d+)?$/;
 	return numberPattern.test(string);
-	// const regex1 = /^(?!^0+(\.0+)?$)\d+(\.\d+)?$/;
 }
 
 // show error on negative numbers, zero or invalid characters
@@ -209,9 +249,10 @@ function showError(inputElement) {
 
 	// get the errorMessage element
 	const errorMessage = inputElement.nextElementSibling;
-	if (inputElement.value === "0") {
+	// set appropriate messages for each error
+	if (/^0+$/.test(inputElement.value)) {
 		errorMessage.textContent = "Can't be zero";
-	} else if (/^-.*$/.test(inputElement.value)) {
+	} else if (/^-/.test(inputElement.value)) {
 		// this block runs if it's a negative value
 		errorMessage.textContent = "Can't be negative";
 	} else {
@@ -220,7 +261,7 @@ function showError(inputElement) {
 	// display error message
 	errorMessage.classList.add("active");
 
-	// position the errorMessage
+	// position the errorMessage element
 	const gap = parseFloat(
 		window
 			.getComputedStyle(inputElement.parentElement.parentElement)
@@ -230,7 +271,6 @@ function showError(inputElement) {
 	);
 	const errorMessageHeight = errorMessage.getBoundingClientRect().height;
 	const inputElementHeight = inputElement.getBoundingClientRect().height;
-
 	if (inputElement.id !== "custom-percent-input") {
 		errorMessage.style.top = `-${gap + errorMessageHeight}px`;
 	} else {
