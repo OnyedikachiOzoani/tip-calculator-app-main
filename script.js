@@ -19,10 +19,26 @@ let valuesResetted = false;
 // add input event listener to input fields to update feedback as user types
 numberInputs.forEach((numberInput) => {
 	numberInput.addEventListener("input", handleEvents);
+	// set initial values
+	switch (numberInput.id) {
+		case "bill-amount-input": {
+			numberInput.value = billAmount;
+			break;
+		}
+
+		case "number-of-people-input": {
+			numberInput.value = noOfPersons;
+		}
+
+		default:
+			break;
+	}
 });
 // add click event listener to the percent buttons
 percentBtns.forEach((percentBtn, index) => {
 	percentBtn.addEventListener("click", handleEvents);
+	// set initial value
+	if (percentBtn.innerText === "15%") percentBtn.classList.add("active");
 });
 // add click event to reset button
 resetBtn.addEventListener("click", handleEvents);
@@ -33,36 +49,56 @@ updateResultFeedback(calculateTips(billAmount, tipPercent, noOfPersons));
 // event handler
 function handleEvents(event) {
 	// update the reset button if used recently, and only if the new event's value can parse to a number type
-	if (valuesResetted && !isNaN()) {
-		valuesResetted = false;
-		resetBtn.classList.remove("active");
+	if (valuesResetted) {
+		if (
+			canNumericParse(event.currentTarget.value) ||
+			canNumericParse(event.currentTarget.innerText.slice(0, -1))
+		) {
+			valuesResetted = false;
+			resetBtn.classList.remove("active");
+		}
 	}
 	// check which event was fired
 	if (event.type === "input") {
+		// update arithmetic values for each input cases and remove any invalid characters from the input value
 		switch (event.currentTarget.id) {
 			case "bill-amount-input": {
-				if (!isNaN(parseFloat(event.currentTarget.value))) {
+				if (canNumericParse(event.currentTarget.value)) {
 					billAmount = parseFloat(event.currentTarget.value);
+					// remove any error feedback
+					removeError(event.currentTarget);
+				} else {
+					showError(event.currentTarget);
 				}
 				break;
 			}
 
 			case "custom-percent-input": {
-				if (!isNaN(parseFloat(event.currentTarget.value))) {
+				if (canNumericParse(event.currentTarget.value)) {
 					tipPercent = parseFloat(event.currentTarget.value) / 100;
+					// remove any error feedback
+					removeError(event.currentTarget);
+
+					// remove any visual feedback on the percentBtns
+					percentBtns.forEach((percentBtn) => {
+						if (percentBtn.classList.contains("active"))
+							percentBtn.classList.remove("active");
+					});
+				} else {
+					showError(event.currentTarget);
 				}
-				// remove any visual feedback on the percentBtns
-				percentBtns.forEach((percentBtn) => {
-					if (percentBtn.classList.contains("active"))
-						percentBtn.classList.remove("active");
-				});
 				break;
 			}
 
 			case "number-of-people-input": {
-				if (parseFloat(event.currentTarget.value)) {
+				if (canNumericParse(event.currentTarget.value)) {
 					noOfPersons = parseFloat(event.currentTarget.value);
+					// remove any error feedback
+					removeError(event.currentTarget);
+				} else {
+					showError(event.currentTarget);
 				}
+				break;
 			}
 
 			default:
@@ -82,7 +118,7 @@ function handleEvents(event) {
 		event.currentTarget.classList.add("active");
 	} else {
 		tipPercent =
-			parseFloat(event.currentTarget.textContent.slice(0, -1)) / 100;
+			parseFloat(event.currentTarget.innerText.slice(0, -1)) / 100;
 
 		if (checkArithmeticValues()) {
 			// update the feedback section
@@ -159,7 +195,54 @@ function checkArithmeticValues() {
 	}
 }
 
-// created this function to fix the issue of whether the inputted string value can be parsed to a number
+// created this function to fix the issue of whether the inputted string value can be parsed to a number, and doesn't return true for zero (0) values
 function canNumericParse(string) {
-	const numberPattern = /^\d+(\.\d+)?$/;
+	const numberPattern = /^(?!^0+(\.0+)?$)\d+(\.\d+)?$/;
+	return numberPattern.test(string);
+	// const regex1 = /^(?!^0+(\.0+)?$)\d+(\.\d+)?$/;
+}
+
+// show error on negative numbers, zero or invalid characters
+function showError(inputElement) {
+	// add the invalid class to the input element
+	inputElement.classList.add("invalid");
+
+	// get the errorMessage element
+	const errorMessage = inputElement.nextElementSibling;
+	if (inputElement.value === "0") {
+		errorMessage.textContent = "Can't be zero";
+	} else if (/^-.*$/.test(inputElement.value)) {
+		// this block runs if it's a negative value
+		errorMessage.textContent = "Can't be negative";
+	} else {
+		errorMessage.textContent = "Enter a valid number";
+	}
+	// display error message
+	errorMessage.classList.add("active");
+
+	// position the errorMessage
+	const gap = parseFloat(
+		window
+			.getComputedStyle(inputElement.parentElement.parentElement)
+			.getPropertyValue("gap")
+			.slice(0, -2)
+		// slice removes the px at the
+	);
+	const errorMessageHeight = errorMessage.getBoundingClientRect().height;
+	const inputElementHeight = inputElement.getBoundingClientRect().height;
+
+	if (inputElement.id !== "custom-percent-input") {
+		errorMessage.style.top = `-${gap + errorMessageHeight}px`;
+	} else {
+		errorMessage.style.top = `${inputElementHeight + 2}px`;
+	}
+}
+
+// remove error if conditions are valid
+function removeError(inputElement) {
+	// remove unrequired classes
+	inputElement.classList.remove("invalid");
+	// get the error message element
+	const errorMessage = inputElement.nextElementSibling;
+	errorMessage.classList.remove("active");
 }

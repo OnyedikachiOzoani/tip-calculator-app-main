@@ -41,8 +41,11 @@
 										required
 										id="bill-amount-input"
 										class="number-input"
-										value="142.55"
-										min="0.1" />
+										min="1" />
+									<!-- error message -->
+									<span class="error-message"
+										>Can't be zero</span
+									>
 								</div>
 							</div>
 
@@ -74,12 +77,19 @@
 										class="transitioned-state">
 										<span>50%</span>
 									</button>
-									<input
-										type="number"
-										id="custom-percent-input"
-										class="number-input"
-										placeholder="Custom"
-										min="1" />
+									<div
+										class="input-inner-container custom-percent-input-container">
+										<input
+											type="number"
+											id="custom-percent-input"
+											class="number-input"
+											placeholder="Custom"
+											min="1" />
+										<!-- error message -->
+										<span class="error-message"
+											>Can't be zero</span
+										>
+									</div>
 								</div>
 							</fieldset>
 
@@ -95,8 +105,11 @@
 										required
 										id="number-of-people-input"
 										class="number-input"
-										value="5"
 										min="1" />
+									<!-- error message -->
+									<span class="error-message"
+										>Can't be zero</span
+									>
 								</div>
 							</div>
 						</div>

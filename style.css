@@ -8,6 +8,7 @@
 	--Dark-grayish-cyan: hsl(186, 14%, 43%);
 	--Very-dark-cyan: hsl(183, 100%, 15%);
 	--Strong-cyan: hsl(172, 67%, 45%);
+	--Red: hsl(0, 91%, 64%);
 }
 
 * {
@@ -53,6 +54,10 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
+}
+
+.input-container {
+	gap: 0.5rem;
 }
 
 .input-container,
@@ -107,6 +112,31 @@ main {
 
 .number-input:is(:focus, :active) {
 	outline: 2px solid var(--Strong-cyan);
+}
+
+.number-input.invalid,
+.number-input.invalid:is(:focus, :active) {
+	outline: 2px solid var(--Red);
+}
+
+.input-inner-container .error-message {
+	position: absolute;
+	top: calc(-16.67px - 0.5rem);
+	/* to be updated dynamically */
+	right: 0;
+	font-size: 0.7rem;
+	display: block;
+	text-align: right;
+	color: var(--Red);
+	display: none;
+}
+
+.custom-percent-input-container .error-message {
+	top: 44.92px;
+}
+
+.error-message.active {
+	display: block;
 }
 
 .percent-buttons-container {
@@ -200,9 +230,9 @@ main {
 	cursor: pointer;
 }
 
-/* .reset-btn:is(:hover, :active) {
+.reset-btn:hover {
 	background-color: hsl(172, 67%, 70%);
-} */
+}
 
 .reset-btn.active {
 	cursor: auto;
@@ -225,14 +255,20 @@ main {
 }
 
 /* media breakpoints */
-@media (min-width: 640px) {
+@media (min-width: 640px) and (max-width: 821px) {
 	/* page main sectiion */
-	main {
-		padding-inline: 2rem;
-	}
-
 	.main-section-container {
 		max-width: none;
+		margin-inline: 2rem;
+	}
+
+	/* input section */
+	.custom-percent-input-container .error-message {
+		top: 42.25px;
+	}
+
+	.number-of-people-input-container .error-message {
+		top: 44.92px;
 	}
 
 	/* form inputs section */
@@ -264,5 +300,42 @@ main {
 		/* max-width: 287px; */
 		justify-self: center;
 		width: 17.94rem;
+	}
+}
+
+@media (min-width: 821px) {
+	/* page main section */
+	main {
+		padding-inline: 2rem;
+	}
+
+	.main-section-container {
+		flex-direction: row;
+		min-width: min(100%, 950px);
+		max-width: 950px;
+		padding: 2rem;
+	}
+
+	.main-section-container > * {
+		flex: 1;
+	}
+
+	/* result feedback section */
+	.result-feedback-section {
+		padding: 2rem;
+		gap: 2.5rem;
+		justify-content: flex-start;
+	}
+
+	.feedback-container {
+		align-items: center;
+	}
+
+	.feedback-amount {
+		font-size: 3rem;
+	}
+
+	.reset-btn {
+		margin-top: auto;
 	}
 }
