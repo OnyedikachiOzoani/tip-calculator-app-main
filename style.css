@@ -182,14 +182,10 @@ main {
 	font-size: 2.5rem;
 }
 
-.percent-buttons-inner-container button:nth-child(3) {
-	background-color: var(--Strong-cyan);
-	color: var(--Very-dark-cyan);
-}
-
-.percent-buttons-inner-container button:nth-child(3):is(:hover),
-.percent-buttons-inner-container button.active:nth-child(3) {
+.percent-buttons-inner-container button:is(:hover),
+.percent-buttons-inner-container button.active {
 	background-color: hsl(172, 67%, 70%);
+	color: var(--Very-dark-cyan);
 }
 
 /* result feedback section */
